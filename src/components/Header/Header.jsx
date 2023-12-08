@@ -1,10 +1,16 @@
 import React from "react";
+import "./Header.css"
 
-const NewTaskForm = () => {
+import MainTitle from "../UI/MainTitle/MainTitle"
+import NewTaskForm from "./NewTaskForm/NewTaskForm";
+
+const Header = ({title}) => {
  return (
    <header>
+     <MainTitle title={title} />
+     <NewTaskForm />
    </header>
  )
 }
 
-export default NewTaskForm
+export default Header

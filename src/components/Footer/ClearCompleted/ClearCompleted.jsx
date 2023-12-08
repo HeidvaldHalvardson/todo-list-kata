@@ -1,4 +1,5 @@
 import React from 'react';
+import "./ClearCompleted.css"
 
 const ClearCompleted = () => {
   return (
