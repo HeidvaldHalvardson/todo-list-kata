@@ -2,10 +2,10 @@ import React from "react";
 import "./Main.css"
 import TaskList from "./TaskList/TaskList";
 
-const Main = ({tasks}) => {
+const Main = ({tasks, onDeleted, onLabelClick}) => {
   return (
     <main className="main">
-      <TaskList tasks={tasks}/>
+      <TaskList tasks={tasks} onDeleted={onDeleted} onLabelClick={onLabelClick}/>
     </main>
   )
 }
