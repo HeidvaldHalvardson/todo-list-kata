@@ -4,11 +4,11 @@ import "./Header.css"
 import MainTitle from "../UI/MainTitle/MainTitle"
 import NewTaskForm from "./NewTaskForm/NewTaskForm";
 
-const Header = ({title}) => {
+const Header = ({title, addTodo}) => {
  return (
    <header>
      <MainTitle title={title} />
-     <NewTaskForm />
+     <NewTaskForm addTodo={addTodo}/>
    </header>
  )
 }

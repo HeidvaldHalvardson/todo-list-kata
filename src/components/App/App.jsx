@@ -7,12 +7,23 @@ import Footer from "../Footer/Footer";
 
 export default class App extends React.Component {
 
+  item = 100
+
   state = {
     tasks: [
       {text: 'Completed task', active: true, edit: false, id: 1},
       {text: 'Editing task', active: false, edit: false, id: 2},
       {text: 'Active task', active: false, edit: false, id: 3}
     ]
+  }
+
+  createTask(text) {
+    return {
+      text,
+      active: false,
+      edit: false,
+      id: this.item++
+    }
   }
 
   itemDelete (id) {
@@ -36,10 +47,19 @@ export default class App extends React.Component {
     })
   }
 
+  addTodo (value) {
+    this.setState(({tasks}) => {
+      const newTasks = [...tasks, this.createTask(value)]
+      return {
+        tasks: newTasks
+      }
+    })
+  }
+
   render() {
     return (
       <div className="todoapp">
-        <Header title="todos" />
+        <Header title="todos" addTodo={(value) => this.addTodo(value)}/>
         <Main tasks={this.state.tasks} onDeleted={ (id) => this.itemDelete(id) } onLabelClick={ (id) => this.onLabelClick(id) } />
         <Footer />
       </div>
