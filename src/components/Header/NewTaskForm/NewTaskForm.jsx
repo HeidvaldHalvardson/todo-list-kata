@@ -17,7 +17,7 @@ export default class NewTaskForm extends React.Component {
     return (
       <form onSubmit={(evt) => {
         evt.preventDefault()
-        this.props.addTodo(this.state.value)
+        this.props.addTodo(this.state.value.trim())
         this.setState({value: ''})
       }}>
         <input className="new-todo"

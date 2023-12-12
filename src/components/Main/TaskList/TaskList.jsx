@@ -1,13 +1,25 @@
 import React from 'react';
 import "./TaskList.css"
-import Task from "../Task/Task";
+import Task from "./Task/Task";
 
-const TaskList = ({tasks, onDeleted, onLabelClick}) => {
+const TaskList = ({tasks, onDeleted, onLabelClick, filterValue}) => {
+  let filterTasks = [...tasks]
+  switch (filterValue) {
+    case 'Active':
+      filterTasks = filterTasks.filter(item => item.active)
+      break
+    case 'Completed':
+      filterTasks = filterTasks.filter(item => !item.active)
+      break
+    default:
+      break
+  }
+
   return (
     <ul className="todo-list">
       {
-        tasks.map(task => {
-          return <Task key={task.id} props={task} onDeleted={() => onDeleted(task.id)}  onLabelClick={ () => onLabelClick(task.id)}/>
+        filterTasks.map(task => {
+          return <Task key={task.id} props={task} onDeleted={() => onDeleted(task.id)}  onLabelClick={ () => onLabelClick(task.id)} />
         })
       }
     </ul>
@@ -15,3 +27,4 @@ const TaskList = ({tasks, onDeleted, onLabelClick}) => {
 };
 
 export default TaskList;
+

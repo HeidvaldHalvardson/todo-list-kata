@@ -11,16 +11,17 @@ export default class App extends React.Component {
 
   state = {
     tasks: [
-      {text: 'Completed task', active: true, edit: false, id: 1},
-      {text: 'Editing task', active: false, edit: false, id: 2},
-      {text: 'Active task', active: false, edit: false, id: 3}
-    ]
+      {text: 'Completed task', active: false, edit: false, id: 1},
+      {text: 'Editing task', active: true, edit: false, id: 2},
+      {text: 'Active task', active: true, edit: false, id: 3}
+    ],
+    filterValue: 'All'
   }
 
   createTask(text) {
     return {
       text,
-      active: false,
+      active: true,
       edit: false,
       id: this.item++
     }
@@ -48,6 +49,9 @@ export default class App extends React.Component {
   }
 
   addTodo (value) {
+    if (!value) {
+      return
+    }
     this.setState(({tasks}) => {
       const newTasks = [...tasks, this.createTask(value)]
       return {
@@ -56,12 +60,31 @@ export default class App extends React.Component {
     })
   }
 
+  filterTodos = (value) => {
+    this.setState(() => {
+      return {
+        filterValue: value
+      }
+    })
+  }
+
+  clear = () => {
+    this.setState(({tasks}) => {
+      const newTasks = JSON.parse(JSON.stringify(tasks))
+      return {
+        tasks: newTasks.filter(item => item.active)
+      }
+    })
+  }
+
   render() {
+    const leftCount = this.state.tasks.filter(item => item.active).length
+
     return (
       <div className="todoapp">
         <Header title="todos" addTodo={(value) => this.addTodo(value)}/>
-        <Main tasks={this.state.tasks} onDeleted={ (id) => this.itemDelete(id) } onLabelClick={ (id) => this.onLabelClick(id) } />
-        <Footer />
+        <Main tasks={this.state.tasks} filterValue={this.state.filterValue} onDeleted={ (id) => this.itemDelete(id) } onLabelClick={ (id) => this.onLabelClick(id) } />
+        <Footer filterTodos={this.filterTodos} clear={this.clear} leftCount={leftCount} />
       </div>
     )
   }

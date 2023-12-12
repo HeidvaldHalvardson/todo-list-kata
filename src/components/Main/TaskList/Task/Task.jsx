@@ -6,7 +6,7 @@ const Task = ({props, onDeleted, onLabelClick}) => {
   return (
     <li
       key={props.id}
-      className={`${props.active ? 'completed' : null} ${props.edit ? 'editing' : null}`}>
+      className={`${!props.active ? 'completed' : null} ${props.edit ? 'editing' : null}`}>
       {props.edit
         ?
         <input type="text" className="edit" value={props.text} />

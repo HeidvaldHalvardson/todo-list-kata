@@ -4,12 +4,12 @@ import TodoCount from "./TodoCount/TodoCount";
 import TaskFilter from "./TaskFilter/TaskFilter";
 import "./Footer.css"
 
-const Footer = () => {
+const Footer = ({filterTodos, clear, leftCount}) => {
   return (
     <footer className="footer">
-      <TodoCount />
-      <TaskFilter />
-      <ClearCompleted />
+      <TodoCount leftCount={leftCount} />
+      <TaskFilter filterTodos={filterTodos} />
+      <ClearCompleted clear={clear} />
     </footer>
   );
 };
