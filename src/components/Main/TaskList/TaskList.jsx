@@ -1,6 +1,7 @@
 import React from 'react';
 import "./TaskList.css"
 import Task from "./Task/Task";
+import PropTypes from "prop-types";
 
 const TaskList = ({tasks, onDeleted, onLabelClick, filterValue}) => {
   let filterTasks = [...tasks]
@@ -25,6 +26,17 @@ const TaskList = ({tasks, onDeleted, onLabelClick, filterValue}) => {
     </ul>
   );
 };
+
+TaskList.defaultProps = {
+  onLabelClick: () => {}
+}
+
+TaskList.propTypes = {
+  onLabelClick: PropTypes.func,
+  onDeleted: PropTypes.func,
+  filterValue: PropTypes.string,
+  tasks: PropTypes.arrayOf(PropTypes.object)
+}
 
 export default TaskList;
 
