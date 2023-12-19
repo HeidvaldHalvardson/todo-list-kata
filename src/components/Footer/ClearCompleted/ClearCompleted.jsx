@@ -1,10 +1,12 @@
-import React from 'react';
-import "./ClearCompleted.css"
+import React from 'react'
+import './ClearCompleted.css'
 
-const ClearCompleted = ({clear}) => {
+const ClearCompleted = ({ clear }) => {
   return (
-    <button className="clear-completed" onClick={clear}>Clear completed</button>
-  );
-};
+    <button className="clear-completed" onClick={clear}>
+      Clear completed
+    </button>
+  )
+}
 
-export default ClearCompleted;
+export default ClearCompleted

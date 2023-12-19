@@ -1,26 +1,25 @@
-import React from 'react';
-import "./TaskFilter.css"
+import React from 'react'
+import './TaskFilter.css'
 
-const FilterButton = ({text, handler, isActive}) => {
+const FilterButton = ({ text, handler, isActive }) => {
   return (
-    <button type="button" onClick={handler} className={isActive ? 'selected' : null}>{text}</button>
+    <button type="button" onClick={handler} className={isActive ? 'selected' : null}>
+      {text}
+    </button>
   )
 }
 
-
-
 export default class TaskFilter extends React.Component {
-
   state = {
     buttons: [
-      {text: 'All', isActive: true},
-      {text: 'Active', isActive: false},
-      {text: 'Completed', isActive: false},
-    ]
+      { text: 'All', isActive: true },
+      { text: 'Active', isActive: false },
+      { text: 'Completed', isActive: false },
+    ],
   }
 
   clickHandler(id) {
-    this.setState(({buttons}) => {
+    this.setState(({ buttons }) => {
       const index = id
       const newButtons = JSON.parse(JSON.stringify(buttons))
       newButtons.forEach((item, id) => {
@@ -32,24 +31,22 @@ export default class TaskFilter extends React.Component {
         }
       })
       return {
-        buttons: newButtons
+        buttons: newButtons,
       }
     })
   }
 
- render() {
-   return (
-     <ul className="filters">
-       {
-         this.state.buttons.map((item, id) => {
-           return (
-             <li key={id}>
-               <FilterButton text={item.text} isActive={item.isActive} handler={() => this.clickHandler(id)} />
-             </li>
-           )
-         })
-       }
-     </ul>
-   );
- }
-};
+  render() {
+    return (
+      <ul className="filters">
+        {this.state.buttons.map((item, id) => {
+          return (
+            <li key={id}>
+              <FilterButton text={item.text} isActive={item.isActive} handler={() => this.clickHandler(id)} />
+            </li>
+          )
+        })}
+      </ul>
+    )
+  }
+}

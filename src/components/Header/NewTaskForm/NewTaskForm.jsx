@@ -1,30 +1,33 @@
-import React from 'react';
-import "./NewTaskForm.css"
+import React from 'react'
+import './NewTaskForm.css'
 
 export default class NewTaskForm extends React.Component {
-
   state = {
-    value: ''
+    value: '',
   }
 
   onChange = (evt) => {
     this.setState({
-      value: evt.target.value
+      value: evt.target.value,
     })
   }
 
-  render () {
+  render() {
     return (
-      <form onSubmit={(evt) => {
-        evt.preventDefault()
-        this.props.addTodo(this.state.value.trim())
-        this.setState({value: ''})
-      }}>
-        <input className="new-todo"
-               placeholder="What needs to be done?"
-               value={this.state.value}
-               onChange={this.onChange}/>
+      <form
+        onSubmit={(evt) => {
+          evt.preventDefault()
+          this.props.addTodo(this.state.value.trim())
+          this.setState({ value: '' })
+        }}
+      >
+        <input
+          className="new-todo"
+          placeholder="What needs to be done?"
+          value={this.state.value}
+          onChange={this.onChange}
+        />
       </form>
-    );
+    )
   }
-};
+}
