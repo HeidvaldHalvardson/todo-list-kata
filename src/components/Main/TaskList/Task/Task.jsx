@@ -1,5 +1,5 @@
 import React from 'react'
-import './Task.css'
+import './Task.scss'
 import PropTypes from 'prop-types'
 
 import DateCreated from './DateCreated/DateCreated'

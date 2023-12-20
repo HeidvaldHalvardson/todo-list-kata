@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 
 import Task from './Task/Task'
-import './TaskList.css'
+import './TaskList.scss'
 
 const TaskList = ({ tasks, onDeleted, onLabelClick, filterValue }) => {
   let filterTasks = [...tasks]

@@ -1,5 +1,5 @@
 import React from 'react'
-import './TaskFilter.css'
+import './TaskFilter.scss'
 
 const FilterButton = ({ text, handler, isActive }) => {
   return (

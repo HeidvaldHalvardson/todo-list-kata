@@ -2,7 +2,7 @@ import React from 'react'
 
 import TaskList from './TaskList/TaskList'
 
-import './Main.css'
+import './Main.scss'
 
 const Main = ({ tasks, onDeleted, onLabelClick, filterValue }) => {
   return (

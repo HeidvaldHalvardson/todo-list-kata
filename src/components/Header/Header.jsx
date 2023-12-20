@@ -5,7 +5,7 @@ import MainTitle from '../UI/MainTitle/MainTitle'
 
 import NewTaskForm from './NewTaskForm/NewTaskForm'
 
-import './Header.css'
+import './Header.scss'
 
 const Header = ({ title, addTodo }) => {
   return (

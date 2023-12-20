@@ -5,7 +5,7 @@ import ClearCompleted from './ClearCompleted/ClearCompleted'
 import TodoCount from './TodoCount/TodoCount'
 import TaskFilter from './TaskFilter/TaskFilter'
 
-import './Footer.css'
+import './Footer.scss'
 
 const Footer = ({ filterTodos, clear, leftCount }) => {
   return (

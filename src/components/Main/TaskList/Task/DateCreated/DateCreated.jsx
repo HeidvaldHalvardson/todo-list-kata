@@ -1,5 +1,5 @@
 import React from 'react'
-import './DateCreated.css'
+import './DateCreated.scss'
 import { formatDistanceToNowStrict } from 'date-fns'
 
 export default class DateCreated extends React.Component {

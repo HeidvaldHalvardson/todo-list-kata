@@ -1,5 +1,5 @@
 import React from 'react'
-import './ClearCompleted.css'
+import './ClearCompleted.scss'
 
 const ClearCompleted = ({ clear }) => {
   return (
