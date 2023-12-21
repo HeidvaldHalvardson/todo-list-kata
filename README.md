@@ -1,4 +1,4 @@
-[https://todo-heidvaldhalvardson-heidvaldhalvardsons-projects.vercel.app/](https://todo-list-kata-mocha.vercel.app/)
+https://todo-list-kata-mocha.vercel.app/
 
 # Getting Started with Create React App
 
