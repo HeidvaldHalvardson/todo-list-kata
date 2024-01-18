@@ -6,20 +6,31 @@ import DateCreated from './DateCreated/DateCreated'
 
 export default class Task extends React.Component {
   state = {
-    minutes: 0,
-    seconds: 0,
+    minutes: null,
+    seconds: null,
     isTimerStart: false,
+  }
+
+  componentDidMount() {
+    this.setState({
+      minutes: this.props.task.timer.minutes,
+      seconds: this.props.task.timer.seconds,
+    })
   }
 
   setTimer = () => {
     let minutes = this.state.minutes
     let seconds = this.state.seconds
 
-    seconds++
+    if (minutes <= 0 && seconds <= 0) {
+      return
+    }
 
-    if (seconds > 59) {
-      minutes++
-      seconds = 0
+    seconds--
+
+    if (seconds < 0) {
+      minutes--
+      seconds = 59
     }
 
     this.setState({
@@ -29,7 +40,7 @@ export default class Task extends React.Component {
   }
 
   startTimer = () => {
-    if (this.props.props.active && !this.state.isTimerStart) {
+    if (this.props.task.active && !this.state.isTimerStart) {
       this.setState({
         isTimerStart: true,
       })
@@ -46,6 +57,11 @@ export default class Task extends React.Component {
     })
   }
 
+  onLabelClickWithTimer = () => {
+    this.props.onLabelClick()
+    this.pauseTimer()
+  }
+
   componentWillUnmount() {
     clearInterval(this.timer)
   }
@@ -53,17 +69,18 @@ export default class Task extends React.Component {
   render() {
     const minutes = this.state.minutes < 10 ? `0${this.state.minutes}` : this.state.minutes
     const seconds = this.state.seconds < 10 ? `0${this.state.seconds}` : this.state.seconds
-    const { props, onDeleted, onLabelClick } = this.props
+    const { task, onDeleted } = this.props
+
     return (
-      <li key={props.id} className={`todo-item ${!props.active ? 'completed' : ''} ${props.edit ? 'editing' : ''}`}>
-        {props.edit ? (
-          <input type="text" className="edit" value={props.text} />
+      <li className={`todo-item ${!task.active ? 'completed' : ''} ${task.edit ? 'editing' : ''}`}>
+        {task.edit ? (
+          <input type="text" className="edit" value={task.text} />
         ) : (
           <div className="view">
-            <input className="toggle" type="checkbox" onClick={onLabelClick} />
+            <input className="toggle" type="checkbox" onClick={this.onLabelClickWithTimer} />
             <div className="task-description">
-              <label onClick={onLabelClick}>
-                <span className="description">{props.text}</span>
+              <label onClick={this.onLabelClickWithTimer}>
+                <span className="description">{task.text}</span>
               </label>
               <div className="task-timer">
                 <button onClick={this.startTimer} className="icon icon-play" />
@@ -88,5 +105,5 @@ Task.defaultProps = {
 Task.propTypes = {
   onLabelClick: PropTypes.func,
   onDeleted: PropTypes.func,
-  props: PropTypes.object,
+  task: PropTypes.object,
 }

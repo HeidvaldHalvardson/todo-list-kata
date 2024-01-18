@@ -10,19 +10,23 @@ export default class App extends React.Component {
 
   state = {
     tasks: [
-      { text: 'Completed task', active: false, edit: false, id: 1 },
-      { text: 'Editing task', active: true, edit: false, id: 2 },
-      { text: 'Active task', active: true, edit: false, id: 3 },
+      { text: 'Completed task', active: false, edit: false, id: 1, timer: { minutes: 0, seconds: 0 } },
+      { text: 'Editing task', active: true, edit: false, id: 2, timer: { minutes: 0, seconds: 0 } },
+      { text: 'Active task', active: true, edit: false, id: 3, timer: { minutes: 0, seconds: 0 } },
     ],
     filterValue: 'All',
   }
 
-  createTask(text) {
+  createTask(text, minutes, seconds) {
     return {
       text,
       active: true,
       edit: false,
       id: this.item++,
+      timer: {
+        minutes: minutes,
+        seconds: seconds,
+      },
     }
   }
 
@@ -47,14 +51,22 @@ export default class App extends React.Component {
     })
   }
 
-  addTodo(value) {
-    if (!value) {
+  addTodo(text, minutes, seconds) {
+    if (!text) {
       return
     }
+    if (minutes === '') {
+      minutes = 0
+    }
+    if (seconds === '') {
+      seconds = 0
+    }
+
+    const newTask = this.createTask(text, minutes, seconds)
+
     this.setState(({ tasks }) => {
-      const newTasks = [...tasks, this.createTask(value)]
       return {
-        tasks: newTasks,
+        tasks: [...tasks, newTask],
       }
     })
   }
@@ -81,7 +93,7 @@ export default class App extends React.Component {
 
     return (
       <div className="todoapp">
-        <Header title="todos" addTodo={(value) => this.addTodo(value)} />
+        <Header title="todos" addTodo={(text, minutes, seconds) => this.addTodo(text, minutes, seconds)} />
         <Main
           tasks={this.state.tasks}
           filterValue={this.state.filterValue}

@@ -23,7 +23,7 @@ const TaskList = ({ tasks, onDeleted, onLabelClick, filterValue }) => {
         return (
           <Task
             key={task.id}
-            props={task}
+            task={task}
             onDeleted={() => onDeleted(task.id)}
             onLabelClick={() => onLabelClick(task.id)}
           />
