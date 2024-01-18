@@ -1,5 +1,6 @@
 import React from 'react'
 import './ClearCompleted.scss'
+import PropTypes from 'prop-types'
 
 const ClearCompleted = ({ clear }) => {
   return (
@@ -7,6 +8,10 @@ const ClearCompleted = ({ clear }) => {
       Clear completed
     </button>
   )
+}
+
+ClearCompleted.propTypes = {
+  clear: PropTypes.func,
 }
 
 export default ClearCompleted

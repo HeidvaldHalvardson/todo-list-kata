@@ -32,8 +32,7 @@ export default class App extends React.Component {
 
   itemDelete(id) {
     this.setState(({ tasks }) => {
-      const index = tasks.findIndex((item) => item.id === id)
-      const newTasks = [...tasks.slice(0, index), ...tasks.slice(index + 1)]
+      const newTasks = tasks.filter((item) => item.id !== id)
       return {
         tasks: newTasks,
       }
@@ -43,7 +42,7 @@ export default class App extends React.Component {
   onLabelClick(id) {
     this.setState(({ tasks }) => {
       const index = tasks.findIndex((item) => item.id === id)
-      const newTasks = JSON.parse(JSON.stringify(tasks))
+      const newTasks = tasks
       newTasks[index].active = !newTasks[index].active
       return {
         tasks: newTasks,
@@ -81,7 +80,7 @@ export default class App extends React.Component {
 
   clear = () => {
     this.setState(({ tasks }) => {
-      const newTasks = JSON.parse(JSON.stringify(tasks))
+      const newTasks = tasks
       return {
         tasks: newTasks.filter((item) => item.active),
       }
