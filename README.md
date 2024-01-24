@@ -2,4 +2,4 @@
 
 Deployed project
 
-https://todo-list-kata-task-timer.vercel.app/
+https://todos-with-hooks.vercel.app/
