@@ -1,28 +1,26 @@
-import React from 'react'
+import React, { useContext, useEffect, useRef, useState } from 'react'
 import './Task.scss'
 import PropTypes from 'prop-types'
 
+import { Context } from '../../../../Context/Context'
+
 import DateCreated from './DateCreated/DateCreated'
 
-export default class Task extends React.Component {
-  state = {
-    minutes: null,
-    seconds: null,
-    isTimerStart: false,
-  }
+const Task = ({ task }) => {
+  const { itemDelete, onLabelClick } = useContext(Context)
+  const [timer, setTimer] = useState({
+    minutes: task.timer.minutes,
+    seconds: task.timer.seconds,
+  })
+  const [isTimerStart, setIsTimerStart] = useState(false)
+  const [isActive, setIsActive] = useState(task.active)
+  const timerId = useRef()
 
-  componentDidMount() {
-    this.setState({
-      minutes: this.props.task.timer.minutes,
-      seconds: this.props.task.timer.seconds,
-    })
-  }
-
-  setTimer = () => {
-    let minutes = this.state.minutes
-    let seconds = this.state.seconds
-
+  const setTimerId = () => {
+    let minutes = timer.minutes
+    let seconds = timer.seconds
     if (minutes <= 0 && seconds <= 0) {
+      clearInterval(timerId.current)
       return
     }
 
@@ -33,77 +31,75 @@ export default class Task extends React.Component {
       seconds = 59
     }
 
-    this.setState({
+    setTimer({
       minutes,
       seconds,
     })
   }
 
-  startTimer = () => {
-    if (this.props.task.active && !this.state.isTimerStart) {
-      this.setState({
-        isTimerStart: true,
-      })
-      this.timer = setInterval(() => {
-        this.setTimer()
+  useEffect(() => {
+    if (isTimerStart) {
+      timerId.current = setInterval(() => {
+        startTimer()
       }, 1000)
+      return () => clearInterval(timerId.current)
+    }
+  }, [timer, isTimerStart])
+
+  const startTimer = () => {
+    if (isActive && !isTimerStart) {
+      setIsTimerStart(true)
+    }
+
+    if (isActive) {
+      setTimerId()
     }
   }
 
-  pauseTimer = () => {
-    clearInterval(this.timer)
-    this.setState({
-      isTimerStart: false,
-    })
+  const pauseTimer = () => {
+    setIsTimerStart(false)
+    clearInterval(timerId.current)
   }
 
-  onLabelClickWithTimer = () => {
-    this.props.onLabelClick()
-    this.pauseTimer()
+  const onLabelClickWithTimer = () => {
+    setIsActive(!isActive)
+    onLabelClick(task.id)
+    if (isActive) {
+      pauseTimer()
+    }
   }
 
-  componentWillUnmount() {
-    clearInterval(this.timer)
-  }
+  const minutes = timer.minutes < 10 ? `0${+timer.minutes}` : timer.minutes
+  const seconds = timer.seconds < 10 ? `0${+timer.seconds}` : timer.seconds
 
-  render() {
-    const minutes = this.state.minutes < 10 ? `0${this.state.minutes}` : this.state.minutes
-    const seconds = this.state.seconds < 10 ? `0${this.state.seconds}` : this.state.seconds
-    const { task, onDeleted } = this.props
-
-    return (
-      <li className={`todo-item ${!task.active ? 'completed' : ''} ${task.edit ? 'editing' : ''}`}>
-        {task.edit ? (
-          <input type="text" className="edit" value={task.text} />
-        ) : (
-          <div className="view">
-            <input className="toggle" type="checkbox" onClick={this.onLabelClickWithTimer} />
-            <div className="task-description">
-              <label onClick={this.onLabelClickWithTimer}>
-                <span className="description">{task.text}</span>
-              </label>
-              <div className="task-timer">
-                <button onClick={this.startTimer} className="icon icon-play" />
-                <button onClick={this.pauseTimer} className="icon icon-pause" />
-                <span>{`${minutes}:${seconds}`}</span>
-              </div>
-              <DateCreated />
+  return (
+    <li className={`todo-item ${!isActive ? 'completed' : ''} ${task.edit ? 'editing' : ''}`}>
+      {task.edit ? (
+        <input type="text" className="edit" value={task.text} />
+      ) : (
+        <div className="view">
+          <input className="toggle" type="checkbox" onClick={onLabelClickWithTimer} />
+          <div className="task-description">
+            <label onClick={onLabelClickWithTimer}>
+              <span className="description">{task.text}</span>
+            </label>
+            <div className="task-timer">
+              <button onClick={startTimer} className="icon icon-play" />
+              <button onClick={pauseTimer} className="icon icon-pause" />
+              <span>{`${minutes}:${seconds}`}</span>
             </div>
-            <button className="icon icon-edit" />
-            <button className="icon icon-destroy" onClick={onDeleted} />
+            <DateCreated createdTask={task.created} />
           </div>
-        )}
-      </li>
-    )
-  }
+          <button className="icon icon-edit" />
+          <button className="icon icon-destroy" onClick={() => itemDelete(task.id)} />
+        </div>
+      )}
+    </li>
+  )
 }
 
-Task.defaultProps = {
-  onLabelClick: () => {},
-}
+export default Task
 
 Task.propTypes = {
-  onLabelClick: PropTypes.func,
-  onDeleted: PropTypes.func,
   task: PropTypes.object,
 }

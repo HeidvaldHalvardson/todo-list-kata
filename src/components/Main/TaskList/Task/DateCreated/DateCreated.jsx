@@ -1,27 +1,22 @@
-import React from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import './DateCreated.scss'
 import { formatDistanceToNowStrict } from 'date-fns'
 
-export default class DateCreated extends React.Component {
-  state = {
-    now: new Date(),
+const DateCreated = ({ createdTask }) => {
+  const [time, setTime] = useState(createdTask)
+  const timerID = useRef()
+
+  useEffect(() => {
+    timerID.current = setInterval(tick, 5000)
+    return () => clearInterval(timerID.current)
+  }, [time])
+
+  const tick = () => {
+    const newNow = new Date(createdTask)
+    setTime(newNow)
   }
 
-  componentDidMount() {
-    this.timerID = setInterval(() => this.tick(), 5000)
-  }
-
-  componentWillUnmount() {
-    clearInterval(this.timerID)
-  }
-
-  tick() {
-    this.setState({
-      now: this.state.now,
-    })
-  }
-
-  render() {
-    return <span className="created">{`created ${formatDistanceToNowStrict(this.state.now)} ago`}</span>
-  }
+  return <span className="created">{`created ${formatDistanceToNowStrict(time)} ago`}</span>
 }
+
+export default DateCreated

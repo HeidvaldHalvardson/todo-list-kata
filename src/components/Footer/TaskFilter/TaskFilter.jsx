@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import './TaskFilter.scss'
 
 const FilterButton = ({ text, handler, isActive }) => {
@@ -9,44 +9,38 @@ const FilterButton = ({ text, handler, isActive }) => {
   )
 }
 
-export default class TaskFilter extends React.Component {
-  state = {
-    buttons: [
-      { text: 'All', isActive: true },
-      { text: 'Active', isActive: false },
-      { text: 'Completed', isActive: false },
-    ],
-  }
+const TaskFilter = ({ filterTodos }) => {
+  const [buttons, setButtons] = useState([
+    { text: 'All', isActive: true },
+    { text: 'Active', isActive: false },
+    { text: 'Completed', isActive: false },
+  ])
 
-  clickHandler(id) {
-    this.setState(({ buttons }) => {
-      const index = id
-      const newButtons = JSON.parse(JSON.stringify(buttons))
-      newButtons.forEach((item, id) => {
-        if (index === id) {
+  const clickHandler = (id) => {
+    setButtons((buttons) => {
+      buttons.forEach((item, index) => {
+        if (id === index) {
           item.isActive = !item.isActive
-          this.props.filterTodos(item.text)
+          filterTodos(item.text)
         } else {
           item.isActive = false
         }
       })
-      return {
-        buttons: newButtons,
-      }
+      return buttons
     })
   }
 
-  render() {
-    return (
-      <ul className="filters">
-        {this.state.buttons.map((item, id) => {
-          return (
-            <li key={id}>
-              <FilterButton text={item.text} isActive={item.isActive} handler={() => this.clickHandler(id)} />
-            </li>
-          )
-        })}
-      </ul>
-    )
-  }
+  return (
+    <ul className="filters">
+      {buttons.map((item, id) => {
+        return (
+          <li key={id}>
+            <FilterButton text={item.text} isActive={item.isActive} handler={() => clickHandler(id)} />
+          </li>
+        )
+      })}
+    </ul>
+  )
 }
+
+export default TaskFilter

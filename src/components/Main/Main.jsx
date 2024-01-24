@@ -4,16 +4,10 @@ import TaskList from './TaskList/TaskList'
 
 import './Main.scss'
 
-const Main = ({ tasks, onDeleted, onLabelClick, filterValue, timer }) => {
+const Main = ({ tasks, filterValue, timer }) => {
   return (
     <main className="main">
-      <TaskList
-        tasks={tasks}
-        onDeleted={onDeleted}
-        onLabelClick={onLabelClick}
-        filterValue={filterValue}
-        timer={timer}
-      />
+      <TaskList tasks={tasks} filterValue={filterValue} timer={timer} />
     </main>
   )
 }
