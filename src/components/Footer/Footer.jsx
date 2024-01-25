@@ -7,12 +7,12 @@ import TaskFilter from './TaskFilter/TaskFilter'
 
 import './Footer.scss'
 
-const Footer = ({ filterTodos, clear, leftCount }) => {
+const Footer = ({ filterTodos, leftCount }) => {
   return (
     <footer className="footer">
       <TodoCount leftCount={leftCount} />
       <TaskFilter filterTodos={filterTodos} />
-      <ClearCompleted clear={clear} />
+      <ClearCompleted />
     </footer>
   )
 }
@@ -20,7 +20,6 @@ const Footer = ({ filterTodos, clear, leftCount }) => {
 Footer.propTypes = {
   leftCount: PropTypes.number,
   filterTodos: PropTypes.func,
-  clear: PropTypes.func,
 }
 
 export default Footer

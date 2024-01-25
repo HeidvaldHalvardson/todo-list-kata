@@ -1,15 +1,20 @@
 import React from 'react'
+import './Main.scss'
+import PropTypes from 'prop-types'
 
 import TaskList from './TaskList/TaskList'
 
-import './Main.scss'
-
-const Main = ({ tasks, filterValue, timer }) => {
+const Main = ({ tasks, filterValue }) => {
   return (
     <main className="main">
-      <TaskList tasks={tasks} filterValue={filterValue} timer={timer} />
+      <TaskList tasks={tasks} filterValue={filterValue} />
     </main>
   )
 }
 
 export default Main
+
+Main.propTypes = {
+  filterValue: PropTypes.string,
+  tasks: PropTypes.arrayOf(PropTypes.object),
+}

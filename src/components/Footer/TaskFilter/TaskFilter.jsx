@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import './TaskFilter.scss'
+import PropTypes from 'prop-types'
 
 const FilterButton = ({ text, handler, isActive }) => {
   return (
@@ -18,7 +19,7 @@ const TaskFilter = ({ filterTodos }) => {
 
   const clickHandler = (id) => {
     setButtons((buttons) => {
-      buttons.forEach((item, index) => {
+      buttons.map((item, index) => {
         if (id === index) {
           item.isActive = !item.isActive
           filterTodos(item.text)
@@ -41,6 +42,10 @@ const TaskFilter = ({ filterTodos }) => {
       })}
     </ul>
   )
+}
+
+TaskFilter.propTypes = {
+  filterTodos: PropTypes.func,
 }
 
 export default TaskFilter

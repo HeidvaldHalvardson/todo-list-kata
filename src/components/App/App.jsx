@@ -25,7 +25,7 @@ const App = () => {
       created: new Date(),
     },
     {
-      text: 'Active task',
+      text: 'With timer',
       active: true,
       edit: false,
       id: 3,
@@ -34,75 +34,19 @@ const App = () => {
     },
   ])
   const [filterValue, setFilterValue] = useState('All')
-  const [id, setId] = useState(100)
-
-  const createTask = (text, minutes, seconds) => {
-    setId((id) => id + 1)
-    return {
-      text,
-      active: true,
-      edit: false,
-      id,
-      timer: {
-        minutes,
-        seconds,
-      },
-      created: new Date(),
-      isTimerStart: false,
-    }
-  }
-
-  const itemDelete = (id) => {
-    setTasks((tasks) => {
-      return tasks.filter((item) => item.id !== id)
-    })
-  }
-
-  const onLabelClick = (id) => {
-    setTasks((tasks) => {
-      const index = tasks.findIndex((item) => item.id === id)
-      tasks[index].active = !tasks[index].active
-      return tasks
-    })
-  }
-
-  const addTodo = (text, minutes, seconds) => {
-    if (!text) {
-      return
-    }
-    if (minutes === '') {
-      minutes = 0
-    }
-    if (seconds === '') {
-      seconds = 0
-    }
-
-    const newTask = createTask(text, minutes, seconds)
-
-    setTasks((tasks) => {
-      return [...tasks, newTask]
-    })
-  }
-
-  const clear = () => {
-    setTasks((tasks) => {
-      return tasks.filter((item) => item.active)
-    })
-  }
 
   const leftCount = tasks.filter((item) => item.active).length
 
   return (
     <Context.Provider
       value={{
-        onLabelClick,
-        itemDelete,
+        setTasks,
       }}
     >
       <div className="todoapp">
-        <Header title="todos" addTodo={(text, minutes, seconds) => addTodo(text, minutes, seconds)} />
+        <Header title="todos" />
         <Main tasks={tasks} filterValue={filterValue} />
-        <Footer filterTodos={setFilterValue} clear={clear} leftCount={leftCount} />
+        <Footer filterTodos={setFilterValue} leftCount={leftCount} />
       </div>
     </Context.Provider>
   )

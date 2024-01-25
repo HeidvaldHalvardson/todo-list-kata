@@ -7,18 +7,17 @@ import NewTaskForm from './NewTaskForm/NewTaskForm'
 
 import './Header.scss'
 
-const Header = ({ title, addTodo }) => {
+const Header = ({ title }) => {
   return (
     <header>
       <MainTitle title={title} />
-      <NewTaskForm addTodo={addTodo} />
+      <NewTaskForm />
     </header>
   )
 }
 
 Header.propTypes = {
   title: PropTypes.string,
-  addTodo: PropTypes.func,
 }
 
 export default Header

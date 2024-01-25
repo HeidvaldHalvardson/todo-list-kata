@@ -1,10 +1,19 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import './ClearCompleted.scss'
 import PropTypes from 'prop-types'
 
-const ClearCompleted = ({ clear }) => {
+import { Context } from '../../../Context/Context'
+
+const ClearCompleted = () => {
+  const { setTasks } = useContext(Context)
+  const clear = () => {
+    setTasks((tasks) => {
+      return tasks.filter((item) => item.active)
+    })
+  }
+
   return (
-    <button className="clear-completed" onClick={clear}>
+    <button className="clear-completed" onClick={() => clear()}>
       Clear completed
     </button>
   )
